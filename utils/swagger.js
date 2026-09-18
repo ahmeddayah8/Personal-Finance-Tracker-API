@@ -1,4 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const options = {
   definition: {
@@ -13,8 +16,9 @@ const options = {
 
     servers: [
       {
-        url: "http://localhost:5000",
-        description: "Local server",
+        url: (process.env.NODE_ENV = "development"
+          ? "http://localhost:5000"
+          : "https://personal-finance-tracker-api-s11c.onrender.com"),
       },
     ],
 
@@ -41,13 +45,10 @@ const options = {
         name: "Upload",
         description: "Profile picture upload",
       },
-      
     ],
   },
 
-  apis: [
-    "./routes/*.js",
-  ],
+  apis: ["./routes/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

@@ -2,6 +2,11 @@
 
 A fully functional RESTful API for managing personal finances. Users can track their income and expenses, organize transactions into categories, view monthly financial summaries, upload profile pictures, and securely access their data using JWT authentication.
 
+-[✅] Github initialization
+-[✅] MongoDb Atlas
+-[✅] Render deployment
+-[✅] Environment variables
+
 ## 🚀 Features
 
 ### 🔐 Authentication & Authorization
