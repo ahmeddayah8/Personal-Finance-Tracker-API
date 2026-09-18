@@ -46,7 +46,11 @@ app.use(logger);
 
 // MongoDB
 mongoose
-  .connect(process.env.NODE_ENV= "development" ? process.env.MONGO_URI_DEV : process.env.MONGO_URL_PRO)
+  .connect(
+    process.env.NODE_ENV === "development"
+      ? process.env.MONGO_URI_DEV
+      : process.env.MONGO_URL_PRO,
+  )
   .then(() => {
     console.log("✅ MongoDB connected");
   })

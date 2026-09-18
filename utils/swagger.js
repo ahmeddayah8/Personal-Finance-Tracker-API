@@ -16,9 +16,10 @@ const options = {
 
     servers: [
       {
-        url: (process.env.NODE_ENV = "development"
-          ? "http://localhost:5000"
-          : "https://personal-finance-tracker-api-s11c.onrender.com"),
+        url:
+          process.env.NODE_ENV === "development"
+            ? "http://localhost:5000"
+            : "https://personal-finance-tracker-api-s11c.onrender.com",
       },
     ],
 
