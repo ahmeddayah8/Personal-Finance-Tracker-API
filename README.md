@@ -120,9 +120,13 @@ finance-tracker-api/
 │   ├── transactions.js
 │   └── upload.js
 │
-├── schema
+├── schema/
 │   ├── authValidation.js
 │   └── transactionSchema.js
+│
+├── utils/
+│    ├── cloudinary.js 
+│    └── swagger.js │
 │
 ├── .env
 ├── .gitignore
