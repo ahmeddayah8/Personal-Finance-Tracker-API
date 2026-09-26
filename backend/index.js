@@ -4,6 +4,8 @@ dotenv.config();
 import express from "express";
 const PORT = process.env.PORT || 5000;
 import mongoose from "mongoose";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 import cors from "cors";
 import helmet from "helmet";
@@ -22,7 +24,11 @@ dotenv.config({ path: "./backend/.env" });
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://personal-finance-tracker-api-s11c.onrender.com"],
+  }),
+);
 app.use(helmet());
 app.use(express.json());
 
