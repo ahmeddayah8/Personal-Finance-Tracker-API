@@ -1,7 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 const PORT = process.env.PORT || 5000;
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
@@ -14,7 +17,7 @@ import uploadRoutes from "./routes/upload.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { logger } from "./middlewares/logger.js";
 
-dotenv.config();
+dotenv.config({ path: "./backend/.env" });
 
 const app = express();
 
@@ -30,11 +33,12 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // Routes
-app.use("/auth", authRoutes);
-app.use("/transactions", transactionRoutes);
-app.use("/upload", uploadRoutes);
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/", (req, res) => {
   res.json({
@@ -44,12 +48,24 @@ app.get("/", (req, res) => {
 
 app.use(logger);
 
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  // Serve the frontend app
+
+  app.get(/.*/, (req, res) => {
+    res.send(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+  });
+}
+
 // MongoDB
 mongoose
   .connect(
     process.env.NODE_ENV === "development"
       ? process.env.MONGO_URI_DEV
-      : process.env.MONGO_URL_PRO,
+      : process.env.MONGO_URI_PRO,
   )
   .then(() => {
     console.log("✅ MongoDB connected");

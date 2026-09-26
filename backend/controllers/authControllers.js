@@ -1,8 +1,5 @@
-import User from '../models/user.js'
-import { generateToken } from '../utils/GenerateToken.js';
-
-
-
+import User from "../models/user.js";
+import { generateToken } from "../utils/GenerateToken.js";
 
 // REGISTER
 export const register = async (req, res, next) => {
@@ -27,6 +24,7 @@ export const register = async (req, res, next) => {
 
     res.status(201).json({ token });
   } catch (error) {
+    console.error("error", err);
     next(error);
   }
 };
@@ -45,7 +43,7 @@ export const login = async (req, res, next) => {
     }
     const token = generateToken(user._id);
 
-    res.json({token});
+    res.json({ token });
   } catch (error) {
     next(error);
   }

@@ -9,14 +9,14 @@ export const transactionSchema = z.object({
     .number()
     .positive("Amount must be greater than 0"),
 
-  type: z
-    .enum(["income", "expense"]),
+  type: z.enum(["income", "expense"]),
 
   category: z
     .string()
     .min(2, "Category must be at least 2 characters"),
 
-  date: z
-    .string()
-    .optional(),
+  date: z.string().optional(),
 });
+
+export const updateTransactionSchema =
+  transactionSchema.partial();
