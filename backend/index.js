@@ -4,8 +4,8 @@ dotenv.config();
 import express from "express";
 const PORT = process.env.PORT || 5000;
 import mongoose from "mongoose";
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from "path";
+import { fileURLToPath } from "url";
 
 import cors from "cors";
 import helmet from "helmet";
@@ -26,7 +26,10 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://personal-finance-tracker-api-s11c.onrender.com"],
+    origin: [
+      "http://localhost:5173",
+      "https://personal-finance-tracker-api-s11c.onrender.com",
+    ],
   }),
 );
 app.use(helmet());
@@ -46,23 +49,26 @@ app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/upload", uploadRoutes);
 
-app.get("/", (req, res) => {
-  res.json({
-    message: "Personal Finance Tracker API is running",
-  });
-});
+app.use(logger);
 
 app.use(logger);
 
 if (process.env.NODE_ENV === "production") {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const frontendPath = path.join(__dirname, "../frontend/dist");
 
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  // Serve React static files
+  app.use(express.static(frontendPath));
 
-  // Serve the frontend app
-
+  // React Router fallback
   app.get(/.*/, (req, res) => {
-    res.send(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+    res.sendFile(path.join(frontendPath, "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.json({
+      message: "Personal Finance Tracker API is running",
+    });
   });
 }
 
@@ -71,7 +77,7 @@ mongoose
   .connect(
     process.env.NODE_ENV === "development"
       ? process.env.MONGO_URI_DEV
-      : process.env.MONGO_URI_PRO
+      : process.env.MONGO_URI_PRO,
   )
   .then(() => {
     console.log("✅ MongoDB connected");
