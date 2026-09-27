@@ -54,27 +54,29 @@ app.get("/", (req, res) => {
 
 app.use(logger);
 
-if (process.env.NODE_ENV === "production") {
-  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// if (process.env.NODE_ENV === "production") {
+//   const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+//   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  // Serve the frontend app
+//   // Serve the frontend app
 
-  app.get(/.*/, (req, res) => {
-    res.send(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-  });
-}
+//   app.get(/.*/, (req, res) => {
+//     res.send(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+//   });
+// }
 
 // MongoDB
 mongoose
   .connect(
     process.env.NODE_ENV === "development"
       ? process.env.MONGO_URI_DEV
-      : process.env.MONGO_URI_PRO,
+      : process.env.MONGO_URI_PRO
   )
   .then(() => {
     console.log("✅ MongoDB connected");
+    console.log("Database:", mongoose.connection.name);
+    console.log("Host:", mongoose.connection.host);
   })
   .catch((error) => {
     console.error("❌ MongoDB connection failed:", error.message);
