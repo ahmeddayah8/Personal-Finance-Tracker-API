@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore from "../store/authStore";
 
 const api = axios.create({
-  baseURL: "https://personal-finance-tracker-api-bvns.onrender.com"
+  baseURL: "https://personal-finance-tracker-api-bvns.onrender.com/api"
 });
 
 api.interceptors.request.use(
