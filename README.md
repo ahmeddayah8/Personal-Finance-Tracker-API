@@ -2,6 +2,7 @@
 
 A fully functional RESTful API for managing personal finances. Users can track their income and expenses, organize transactions into categories, view monthly financial summaries, upload profile pictures, and securely access their data using JWT authentication.
 
+live demo : https://personal-finance-tracker-api-bvns.onrender.com
 -[✅] Github initialization
 -[✅] MongoDb Atlas
 -[✅] Render deployment
